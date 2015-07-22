@@ -227,6 +227,7 @@
     <string name="rounds">Rounds</string>
     <string name="round_removed">One round deleted!</string>
     <string name="custom_round">Custom round</string>
+    <string name="media_route_menu_title">Cast to TV</string>
     <plurals name="arrow_deleted">
         <item quantity="one">One arrow deleted</item>
         <item quantity="other">%d arrows deleted</item>
