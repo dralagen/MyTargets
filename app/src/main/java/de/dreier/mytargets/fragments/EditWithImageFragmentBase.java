@@ -89,6 +89,7 @@ public abstract class EditWithImageFragmentBase extends EditFragmentBase
         View rootView = inflater.inflate(R.layout.fragment_edit_image, container, false);
 
         setUpToolbar(rootView);
+        setUpReveal(rootView, savedInstanceState);
 
         // Get UI elements
         LinearLayout content = (LinearLayout) rootView.findViewById(R.id.content);

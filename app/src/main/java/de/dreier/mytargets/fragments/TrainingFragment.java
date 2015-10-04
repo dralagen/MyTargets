@@ -88,10 +88,10 @@ public class TrainingFragment extends ExpandableFragment<Round, Passe>
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mFab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+        mFab = (FloatingActionButton) getView().findViewById(R.id.fab);
         mFab.setOnClickListener(this);
-        mNewLayout = rootView.findViewById(R.id.new_layout);
-        mNewText = (TextView) rootView.findViewById(R.id.new_text);
+        mNewLayout = getView().findViewById(R.id.new_layout);
+        mNewText = (TextView) getView().findViewById(R.id.new_text);
 
         // Get training
         if (getArguments() != null) {
@@ -104,7 +104,7 @@ public class TrainingFragment extends ExpandableFragment<Round, Passe>
         training = trainingDataSource.get(mTraining);
 
         // Set up toolbar
-        Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) getView().findViewById(R.id.toolbar);
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar(toolbar);
         ActionBar actionBar = activity.getSupportActionBar();
@@ -149,8 +149,8 @@ public class TrainingFragment extends ExpandableFragment<Round, Passe>
     }
 
     private void setRoundInfo() {
-        TextView info = (TextView) rootView.findViewById(R.id.detail_round_info);
-        TextView tvScore = (TextView) rootView.findViewById(R.id.detail_score);
+        TextView info = (TextView) getView().findViewById(R.id.detail_round_info);
+        TextView tvScore = (TextView) getView().findViewById(R.id.detail_score);
 
         DatabaseManager db = DatabaseManager.getInstance(getContext());
         ArrayList<Pair<String, Integer>> scoreCount = db
@@ -253,7 +253,7 @@ public class TrainingFragment extends ExpandableFragment<Round, Passe>
                 startActivity(shareIntent);
             } catch (IOException e) {
                 e.printStackTrace();
-                Snackbar.make(rootView, R.string.sharing_failed, Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(getView(), R.string.sharing_failed, Snackbar.LENGTH_SHORT).show();
             }
         }).start();
     }

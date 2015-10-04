@@ -45,10 +45,10 @@ import de.dreier.mytargets.shared.models.target.TargetFactory;
 import de.dreier.mytargets.views.NumberPicker;
 import de.dreier.mytargets.views.selector.ArrowSelector;
 import de.dreier.mytargets.views.selector.BowSelector;
-import de.dreier.mytargets.views.selector.DistanceSelector;
 import de.dreier.mytargets.views.selector.EnvironmentSelector;
 import de.dreier.mytargets.views.selector.StandardRoundSelector;
 import de.dreier.mytargets.views.selector.TargetSelector;
+import de.dreier.mytargets.views.selector.TrainingDistanceSelector;
 
 
 public class EditTrainingFragment extends EditFragmentBase implements DatePickerDialog.OnDateSetListener,
@@ -73,7 +73,7 @@ public class EditTrainingFragment extends EditFragmentBase implements DatePicker
     private RadioButton indoor;
     private TabLayout tabLayout;
     private TargetSelector targetSpinner;
-    private DistanceSelector distanceSpinner;
+    private TrainingDistanceSelector distanceSpinner;
     private NumberPicker passes, arrows;
 
     @Override
@@ -81,6 +81,7 @@ public class EditTrainingFragment extends EditFragmentBase implements DatePicker
         View rootView = inflater.inflate(R.layout.fragment_edit_training, container, false);
 
         setUpToolbar(rootView);
+        setUpReveal(rootView, savedInstanceState);
 
         Bundle arguments = getArguments();
         if (arguments != null) {
@@ -113,7 +114,7 @@ public class EditTrainingFragment extends EditFragmentBase implements DatePicker
 
         standardRoundSpinner = (StandardRoundSelector) rootView
                 .findViewById(R.id.standard_round);
-        distanceSpinner = (DistanceSelector) rootView.findViewById(R.id.distance_spinner);
+        distanceSpinner = (TrainingDistanceSelector) rootView.findViewById(R.id.distance_spinner);
         targetSpinner = (TargetSelector) rootView.findViewById(R.id.target_spinner);
         bow = (BowSelector) rootView.findViewById(R.id.bow);
         arrow = (ArrowSelector) rootView.findViewById(R.id.arrow);
@@ -228,7 +229,6 @@ public class EditTrainingFragment extends EditFragmentBase implements DatePicker
         training1.arrowNumbering = !(selectedItem == null || selectedItem.numbers.isEmpty()) &&
                 number_arrows.isChecked();
 
-        getActivity().finish();
         SharedPreferences.Editor editor = prefs.edit();
         StandardRound standardRound;
         TrainingDataSource trainingDataSource = new TrainingDataSource(getContext());
@@ -291,6 +291,7 @@ public class EditTrainingFragment extends EditFragmentBase implements DatePicker
             i.putExtra(InputActivity.PASSE_IND, 0);
             startActivity(i);
             getActivity().overridePendingTransition(R.anim.right_in, R.anim.left_out);
+            getActivity().getSupportFragmentManager().popBackStack();
         } else {
             // Edit training
             Training train = trainingDataSource.get(mTraining);

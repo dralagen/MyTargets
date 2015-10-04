@@ -77,16 +77,13 @@ public abstract class FragmentBase<T extends IIdProvider> extends Fragment
     /** Main {@link RecyclerView} of the fragment */
     protected RecyclerView mRecyclerView;
 
-    /** Root view of the fragment */
-    protected View rootView;
-
     /** Holds the ContentListener called when the fragment's content changes */
     private ContentListener listener;
 
     /** {@inheritDoc} */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        rootView = inflater.inflate(getLayoutResource(), container, false);
+        View rootView = inflater.inflate(getLayoutResource(), container, false);
         mRecyclerView = (RecyclerView) rootView.findViewById(android.R.id.list);
         mRecyclerView.setHasFixedSize(true);
         return rootView;

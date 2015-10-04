@@ -31,7 +31,8 @@ public class RoundDataSource extends IdProviderDataSource<Round> {
                     COMMENT + " TEXT," +
                     TEMPLATE + " INTEGER," +
                     TARGET + " INTEGER," +
-                    SCORING_STYLE + " INTEGER);";
+                    SCORING_STYLE + " INTEGER);" +
+                    "CREATE INDEX round_training ON ROUND(training);";
 
     public RoundDataSource(Context context) {
         super(context, TABLE);

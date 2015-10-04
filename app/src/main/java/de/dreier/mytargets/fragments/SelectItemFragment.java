@@ -77,7 +77,7 @@ public abstract class SelectItemFragment<T extends IIdProvider> extends Fragment
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         // Set up toolbar
-        Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) getView().findViewById(R.id.toolbar);
         useDoubleClickSelection = toolbar != null;
         if(useDoubleClickSelection) {
             ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);

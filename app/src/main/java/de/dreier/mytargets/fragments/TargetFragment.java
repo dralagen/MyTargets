@@ -59,9 +59,9 @@ public class TargetFragment extends SelectItemFragment<Target>
         }
         setList(list, new TargetAdapter());
 
-        scoringStyle = (Spinner) rootView.findViewById(R.id.scoring_style);
-        seekBar = (SeekBar) rootView.findViewById(R.id.target_size_seekbar);
-        label = (TextView) rootView.findViewById(R.id.target_size_label);
+        scoringStyle = (Spinner) getView().findViewById(R.id.scoring_style);
+        seekBar = (SeekBar) getView().findViewById(R.id.target_size_seekbar);
+        label = (TextView) getView().findViewById(R.id.target_size_label);
         int position = list.indexOf(t);
         mSelector.setSelected(position, t.getId(), true);
         mRecyclerView.scrollToPosition(position);

@@ -23,7 +23,8 @@ public class PasseDataSource extends IdProviderDataSource<Passe> {
             "CREATE TABLE IF NOT EXISTS " + TABLE + " (" +
                     ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     ROUND + " INTEGER," +
-                    IMAGE + " TEXT);";
+                    IMAGE + " TEXT);" +
+                    "CREATE INDEX passe_round ON PASSE(round);";
 
     public PasseDataSource(Context context) {
         super(context, TABLE);

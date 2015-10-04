@@ -31,7 +31,8 @@ public class ShotDataSource extends IdProviderDataSource<Shot> {
                     Y + " REAL," +
                     COMMENT + " TEXT," +
                     ARROW + " INTEGER," +
-                    INDEX + " INTEGER);";
+                    INDEX + " INTEGER);" +
+                    "CREATE INDEX shoot_passe ON SHOOT(passe);";
 
     public ShotDataSource(Context context) {
         super(context, TABLE);

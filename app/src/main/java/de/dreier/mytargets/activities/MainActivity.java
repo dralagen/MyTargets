@@ -10,18 +10,15 @@ package de.dreier.mytargets.activities;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -31,63 +28,26 @@ import java.util.Collections;
 import java.util.Locale;
 
 import de.dreier.mytargets.R;
-import de.dreier.mytargets.adapters.MainTabsFragmentPagerAdapter;
-import de.dreier.mytargets.fragments.EditArrowFragment;
-import de.dreier.mytargets.fragments.EditBowFragment;
+import de.dreier.mytargets.fragments.EditFragmentBase;
 import de.dreier.mytargets.fragments.FragmentBase;
-import de.dreier.mytargets.fragments.TrainingsFragment;
-import de.dreier.mytargets.shared.models.Arrow;
-import de.dreier.mytargets.shared.models.Bow;
 import de.dreier.mytargets.shared.models.IIdProvider;
+import io.codetail.animation.SupportAnimator;
 
 /**
  * Shows an overview over all trying days
  */
-public class MainActivity extends AppCompatActivity
-        implements FragmentBase.OnItemSelectedListener, FragmentBase.ContentListener,
-        View.OnClickListener, ViewPager.OnPageChangeListener {
+public class MainActivity extends AppCompatActivity implements EditFragmentBase.OnFragmentTouched,
+        FragmentBase.OnItemSelectedListener, FragmentBase.ContentListener {
 
+    private static final String FRAGMENT = "fragment";
+    private static final String REVEAL_ANIMATION = "reveal_animation";
     private static boolean shownThisTime = false;
-    private View mNewLayout;
-    private TextView mNewText;
-    private ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
-        MainTabsFragmentPagerAdapter adapter = new MainTabsFragmentPagerAdapter(this);
-        viewPager.setAdapter(adapter);
-        viewPager.addOnPageChangeListener(this);
-
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
-        tabLayout.setTabTextColors(0xCCFFFFFF, Color.WHITE);
-        tabLayout.setupWithViewPager(viewPager);
-
         askForHelpTranslating();
-        findViewById(R.id.fab).setOnClickListener(this);
-        mNewLayout = findViewById(R.id.new_layout);
-        mNewText = (TextView) findViewById(R.id.new_text);
-
-        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.settings, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_preferences) {
-            startActivity(new Intent(this, SimpleFragmentActivity.SettingsActivity.class));
-            return true;
-        } else {
-            return super.onOptionsItemSelected(item);
-        }
     }
 
     private void askForHelpTranslating() {
@@ -125,68 +85,82 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onClick(View v) {
-        Intent i = new Intent();
-        if (viewPager.getCurrentItem() == 0) {
-            i.setClass(this, SimpleFragmentActivity.EditTrainingActivity.class);
-        } else if (viewPager.getCurrentItem() == 1) {
-            i.setClass(this, SimpleFragmentActivity.EditBowActivity.class);
-        } else if (viewPager.getCurrentItem() == 2) {
-            i.setClass(this, SimpleFragmentActivity.EditArrowActivity.class);
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            case R.id.action_preferences:
+                startActivity(new Intent(this, SimpleFragmentActivity.SettingsActivity.class));
+                return true;
         }
-        startActivity(i);
-        overridePendingTransition(R.anim.right_in, R.anim.left_out);
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void openFragmentFromClickOn(View v, EditFragmentBase childFragment) {
+        Bundle bundle = new Bundle();
+        bundle.putInt("cx", (int) (v.getX() + v.getWidth() / 2));
+        bundle.putInt("cy", (int) (v.getY() + v.getWidth() / 2));
+        childFragment.setArguments(bundle);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .addToBackStack(REVEAL_ANIMATION)
+                .replace(R.id.content, childFragment, "fragment")
+                .commit();
     }
 
     @Override
     public void onItemSelected(IIdProvider item) {
-        Intent i;
-        if (item instanceof Arrow) {
-            i = new Intent(this, SimpleFragmentActivity.EditArrowActivity.class);
-            i.putExtra(EditArrowFragment.ARROW_ID, item.getId());
-        } else if (item instanceof Bow) {
-            i = new Intent(this, SimpleFragmentActivity.EditBowActivity.class);
-            i.putExtra(EditBowFragment.BOW_ID, item.getId());
-        } else {
-            i = new Intent(this, SimpleFragmentActivity.EditTrainingActivity.class);
-            i.putExtra(TrainingsFragment.TRAINING_ID, item.getId());
+        Fragment fragment = getCurrentFragment();
+        if (fragment != null && fragment instanceof FragmentBase.OnItemSelectedListener) {
+            ((FragmentBase.OnItemSelectedListener) fragment).onItemSelected(item);
         }
-        startActivity(i);
-        overridePendingTransition(R.anim.right_in, R.anim.left_out);
-    }
-
-    private final boolean[] empty = new boolean[3];
-    private final int[] stringRes = new int[3];
-
-    {
-        stringRes[0] = R.string.new_training;
-        stringRes[1] = R.string.new_bow;
-        stringRes[2] = R.string.new_arrow;
     }
 
     @Override
     public void onContentChanged(boolean empty, int stringRes) {
-        for (int i = 0; i < this.stringRes.length; i++) {
-            if (stringRes == this.stringRes[i]) {
-                this.empty[i] = empty;
-            }
+        Fragment fragment = getCurrentFragment();
+        if (fragment != null && fragment instanceof FragmentBase.ContentListener) {
+            ((FragmentBase.ContentListener) fragment).onContentChanged(empty, stringRes);
         }
-        onPageSelected(viewPager.getCurrentItem());
+    }
+
+    protected Fragment getCurrentFragment() {
+        return getSupportFragmentManager().findFragmentByTag(FRAGMENT);
     }
 
     @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+    public void onBackPressed() {
+        int entryCount = getSupportFragmentManager().getBackStackEntryCount();
+        if (entryCount == 0) {
+            super.onBackPressed();
+        }
+        FragmentManager.BackStackEntry entry = getSupportFragmentManager()
+                .getBackStackEntryAt(entryCount - 1);
+        if (REVEAL_ANIMATION.equals(entry.getName())) {
+            Fragment fragment = getCurrentFragment();
+            onFragmentTouched(fragment, fragment.getArguments().getInt("cx"),
+                    fragment.getArguments().getInt("cy"));
+        } else {
+            getSupportFragmentManager().popBackStack();
+        }
     }
 
     @Override
-    public void onPageSelected(int position) {
-        mNewLayout.setVisibility(empty[position] ? View.VISIBLE : View.GONE);
-        mNewText.setText(stringRes[position]);
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int state) {
-
+    public void onFragmentTouched(Fragment fragment, float x, float y) {
+        if (fragment instanceof EditFragmentBase) {
+            final EditFragmentBase theFragment = (EditFragmentBase) fragment;
+            SupportAnimator unreveal = theFragment.prepareUnrevealAnimator(x, y);
+            unreveal.addListener(new SupportAnimator.SimpleAnimatorListener() {
+                @Override
+                public void onAnimationEnd() {
+                    // remove the fragment only when the animation finishes
+                    getSupportFragmentManager().beginTransaction().remove(theFragment).commit();
+                    //to prevent flashing the fragment before removing it, execute pending transactions inmediately
+                    getSupportFragmentManager().executePendingTransactions();
+                }
+            });
+            unreveal.start();
+        }
     }
 }

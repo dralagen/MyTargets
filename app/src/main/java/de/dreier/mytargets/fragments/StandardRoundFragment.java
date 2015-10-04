@@ -60,7 +60,7 @@ public class StandardRoundFragment extends SelectItemFragment<StandardRound> imp
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mDrawerLayout = (DrawerLayout) rootView.findViewById(R.id.drawer_layout);
+        mDrawerLayout = (DrawerLayout) getView().findViewById(R.id.drawer_layout);
         mSelector.setSelectable(true);
         currentSelection = (StandardRound) getArguments().getSerializable(ITEM);
         list = new StandardRoundDataSource(getContext()).getAll();
@@ -72,9 +72,9 @@ public class StandardRoundFragment extends SelectItemFragment<StandardRound> imp
     }
 
     private void initFilter() {
-        location = (RadioGroup) rootView.findViewById(R.id.location);
-        unit = (RadioGroup) rootView.findViewById(R.id.unit);
-        typ = (RadioGroup) rootView.findViewById(R.id.round_typ);
+        location = (RadioGroup) getView().findViewById(R.id.location);
+        unit = (RadioGroup) getView().findViewById(R.id.unit);
+        typ = (RadioGroup) getView().findViewById(R.id.round_typ);
         getClubs();
 
         // Set default values
@@ -95,15 +95,15 @@ public class StandardRoundFragment extends SelectItemFragment<StandardRound> imp
     }
 
     private void setLocation() {
-        RadioButton outdoor = (RadioButton) rootView.findViewById(R.id.outdoor);
-        RadioButton indoor = (RadioButton) rootView.findViewById(R.id.indoor);
+        RadioButton outdoor = (RadioButton) getView().findViewById(R.id.outdoor);
+        RadioButton indoor = (RadioButton) getView().findViewById(R.id.indoor);
         indoor.setChecked(currentSelection.indoor);
         outdoor.setChecked(!currentSelection.indoor);
     }
 
     private void setMeasurementType(RoundTemplate firstRound) {
-        RadioButton metric = (RadioButton) rootView.findViewById(R.id.metric);
-        RadioButton imperial = (RadioButton) rootView.findViewById(R.id.imperial);
+        RadioButton metric = (RadioButton) getView().findViewById(R.id.metric);
+        RadioButton imperial = (RadioButton) getView().findViewById(R.id.imperial);
         if (firstRound.distance.unit.equals(Dimension.METER)) {
             metric.setChecked(true);
         } else {
@@ -112,9 +112,9 @@ public class StandardRoundFragment extends SelectItemFragment<StandardRound> imp
     }
 
     private void setRoundType(RoundTemplate firstRound) {
-        RadioButton target = (RadioButton) rootView.findViewById(R.id.target);
-        RadioButton field = (RadioButton) rootView.findViewById(R.id.field);
-        RadioButton threeD = (RadioButton) rootView.findViewById(R.id.three_d);
+        RadioButton target = (RadioButton) getView().findViewById(R.id.target);
+        RadioButton field = (RadioButton) getView().findViewById(R.id.field);
+        RadioButton threeD = (RadioButton) getView().findViewById(R.id.three_d);
         if (firstRound.target.isFieldTarget()) {
             field.setChecked(true);
         } else if (firstRound.target.is3DTarget()) {
@@ -134,15 +134,15 @@ public class StandardRoundFragment extends SelectItemFragment<StandardRound> imp
     }
 
     private void getClubs() {
-        clubs[0] = (CheckBox) rootView.findViewById(R.id.asa);
-        clubs[1] = (CheckBox) rootView.findViewById(R.id.aussie);
-        clubs[2] = (CheckBox) rootView.findViewById(R.id.gnas);
-        clubs[3] = (CheckBox) rootView.findViewById(R.id.ifaa);
-        clubs[4] = (CheckBox) rootView.findViewById(R.id.nasp);
-        clubs[5] = (CheckBox) rootView.findViewById(R.id.nfaa);
-        clubs[6] = (CheckBox) rootView.findViewById(R.id.nfas);
-        clubs[7] = (CheckBox) rootView.findViewById(R.id.wa);
-        clubs[8] = (CheckBox) rootView.findViewById(R.id.custom);
+        clubs[0] = (CheckBox) getView().findViewById(R.id.asa);
+        clubs[1] = (CheckBox) getView().findViewById(R.id.aussie);
+        clubs[2] = (CheckBox) getView().findViewById(R.id.gnas);
+        clubs[3] = (CheckBox) getView().findViewById(R.id.ifaa);
+        clubs[4] = (CheckBox) getView().findViewById(R.id.nasp);
+        clubs[5] = (CheckBox) getView().findViewById(R.id.nfaa);
+        clubs[6] = (CheckBox) getView().findViewById(R.id.nfas);
+        clubs[7] = (CheckBox) getView().findViewById(R.id.wa);
+        clubs[8] = (CheckBox) getView().findViewById(R.id.custom);
     }
 
     private void updateFilter() {

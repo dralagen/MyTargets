@@ -79,6 +79,8 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.cocosw/bottomsheet/1.1.1/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.github.ksoichiro/android-observablescrollview/1.5.2/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.github.machinarius/preferencefragment/0.1.1/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.github.ozodrukh/CircularReveal/1.1.1/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.github.zhaozhentao/InboxLayout/cb8433f254/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.google.android.gms/play-services-ads/7.8.0/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.google.android.gms/play-services-analytics/7.8.0/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.google.android.gms/play-services-appindexing/7.8.0/jars" />
@@ -132,6 +134,7 @@
     <orderEntry type="library" exported="" name="play-services-appindexing-7.8.0" level="project" />
     <orderEntry type="library" exported="" name="recyclerview-v7-23.0.1" level="project" />
     <orderEntry type="library" exported="" name="play-services-appinvite-7.8.0" level="project" />
+    <orderEntry type="library" exported="" name="CircularReveal-1.1.1" level="project" />
     <orderEntry type="library" exported="" name="play-services-safetynet-7.8.0" level="project" />
     <orderEntry type="library" exported="" name="support-v4-23.0.1" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-23.0.1" level="project" />
@@ -151,6 +154,7 @@
     <orderEntry type="library" exported="" name="play-services-panorama-7.8.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-plus-7.8.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-maps-7.8.0" level="project" />
+    <orderEntry type="library" exported="" name="InboxLayout-cb8433f254" level="project" />
     <orderEntry type="module" module-name="RecyclerViewChoiceMode" exported="" />
     <orderEntry type="module" module-name="shared" exported="" />
     <orderEntry type="module" module-name="aFileChooser" exported="" />
