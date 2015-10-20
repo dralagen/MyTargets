@@ -15,8 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.bignerdranch.android.recyclerviewchoicemode.SelectableViewHolder;
-
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,6 +31,8 @@ import de.dreier.mytargets.models.Month;
 import de.dreier.mytargets.shared.models.Round;
 import de.dreier.mytargets.shared.models.Training;
 import de.dreier.mytargets.utils.DataLoader;
+import de.dreier.mytargets.utils.HeaderBindingHolder;
+import de.dreier.mytargets.utils.SelectableViewHolder;
 
 /**
  * Shows an overview over all trying days
@@ -132,7 +132,7 @@ public class TrainingsFragment extends ExpandableFragment<Month, Training> {
         }
     }
 
-    private class HeaderViewHolder extends SelectableViewHolder<Month> {
+    private class HeaderViewHolder extends HeaderBindingHolder<Month> {
         private final TextView mTitle;
 
         public HeaderViewHolder(View itemView) {

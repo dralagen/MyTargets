@@ -27,7 +27,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.bignerdranch.android.recyclerviewchoicemode.SelectableViewHolder;
 import com.cocosw.bottomsheet.BottomSheet;
 
 import java.io.File;
@@ -50,9 +49,11 @@ import de.dreier.mytargets.shared.models.Passe;
 import de.dreier.mytargets.shared.models.Round;
 import de.dreier.mytargets.shared.models.Training;
 import de.dreier.mytargets.utils.DataLoader;
+import de.dreier.mytargets.utils.HeaderBindingHolder;
 import de.dreier.mytargets.utils.Pair;
 import de.dreier.mytargets.utils.ScoreboardImage;
 import de.dreier.mytargets.utils.ScoreboardUtils;
+import de.dreier.mytargets.utils.SelectableViewHolder;
 import de.dreier.mytargets.utils.TargetImage;
 import de.dreier.mytargets.views.PasseView;
 import de.dreier.mytargets.views.TargetPasseView;
@@ -401,7 +402,7 @@ public class TrainingFragment extends ExpandableFragment<Round, Passe>
     }
 
 
-    private class HeaderViewHolder extends SelectableViewHolder<Round> {
+    private class HeaderViewHolder extends HeaderBindingHolder<Round> {
         private final TextView mTitle;
         private final TextView mSubtitle;
 
